@@ -31,7 +31,7 @@
             cursor: pointer;
         }
         h1 { color: #d63384; font-size: 2.5rem; margin-bottom: 10px; }
-        .buttons { margin-top: 30px; position: relative; width: 300px; height: 100px; }
+        .buttons { margin-top: 30px; position: relative; width: 300px; height: 100px; display: inline-block; }
         #yesBtn {
             background-color: #ff3399;
             color: white;
@@ -56,6 +56,25 @@
         .container { display: none; }
         .heart-icon { font-size: 50px; animation: pulse 1s infinite; }
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.2);} 100% {transform: scale(1);} }
+
+        /* Floating Message Styling */
+        .dropping-text {
+            position: fixed;
+            top: -50px;
+            color: #d63384;
+            font-weight: bold;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            user-select: none;
+            animation: fall linear forwards;
+            z-index: 1000;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
     </style>
 </head>
 <body>
@@ -98,7 +117,25 @@
             noBtn.style.top = y + 'px';
         }
 
+        function createDroppingText() {
+            const text = document.createElement('div');
+            text.className = 'dropping-text';
+            text.innerText = 'I Love You Baby ❤️';
+            text.style.left = Math.random() * 100 + 'vw';
+            text.style.animationDuration = (Math.random() * 2 + 3) + 's'; // 3 to 5 seconds
+            text.style.opacity = Math.random();
+            document.body.appendChild(text);
+
+            // Remove text after animation
+            setTimeout(() => {
+                text.remove();
+            }, 5000);
+        }
+
         function celebrate() {
+            // Start dropping messages
+            setInterval(createDroppingText, 300);
+
             // Heart Confetti
             var end = Date.now() + (15 * 1000);
             (function frame() {
@@ -109,10 +146,11 @@
 
             document.getElementById('mainContent').innerHTML = `
                 <h1 style="font-size: 3rem; color: #ff3399;">Yay! I Love You! ❤️</h1>
-                <p style="font-size: 1.5rem;">See you soon, Arpita! 🥰</p>
+                <p style="font-size: 1.5rem;">Happy Valentine's Day Baby! 🥰</p>
                 <div style="font-size: 5rem;">🥂💍✨</div>
             `;
         }
     </script>
 </body>
 </html>
+
